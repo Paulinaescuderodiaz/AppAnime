@@ -1,0 +1,149 @@
+.register-content {
+  --background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+.register-container {
+  padding: 20px;
+  min-height: 100%;
+}
+
+.header-section {
+  text-align: center;
+  margin: 20px 0 30px 0;
+  animation: fadeInDown 0.8s ease;
+
+  .register-icon {
+    font-size: 60px;
+    color: #e94560;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 0 15px rgba(233, 69, 96, 0.5));
+  }
+
+  h2 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #ffffff;
+    margin: 0 0 8px 0;
+  }
+
+  .subtitle {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    margin: 0;
+  }
+}
+
+.form-section {
+  animation: fadeInUp 0.8s ease;
+}
+
+.register-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+  ion-card-content {
+    padding: 25px 20px;
+  }
+}
+
+.input-item {
+  --background: rgba(255, 255, 255, 0.1);
+  --border-radius: 12px;
+  margin-bottom: 14px;
+  border-radius: 12px;
+
+  ion-icon {
+    color: #e94560;
+    margin-right: 12px;
+  }
+
+  ion-input {
+    --color: #ffffff;
+    --placeholder-color: rgba(255, 255, 255, 0.5);
+  }
+
+  .password-toggle {
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.6);
+    
+    &:hover {
+      color: #e94560;
+    }
+  }
+}
+
+.register-button {
+  --background: linear-gradient(135deg, #e94560 0%, #d63447 100%);
+  --border-radius: 12px;
+  margin-top: 20px;
+  height: 50px;
+  font-weight: 600;
+  text-transform: none;
+  font-size: 16px;
+  box-shadow: 0 4px 15px rgba(233, 69, 96, 0.4);
+}
+
+.divider {
+  text-align: center;
+  margin: 20px 0;
+  position: relative;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  &::before { left: 0; }
+  &::after { right: 0; }
+
+  span {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
+    padding: 0 10px;
+  }
+}
+
+.google-button {
+  --border-color: rgba(255, 255, 255, 0.3);
+  --border-width: 2px;
+  --border-radius: 12px;
+  --color: #ffffff;
+  height: 50px;
+  text-transform: none;
+  font-size: 16px;
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 20px;
+
+  p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    margin: 0;
+  }
+
+  .link-text {
+    color: #e94560;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}

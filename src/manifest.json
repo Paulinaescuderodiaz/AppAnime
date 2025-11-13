@@ -1,0 +1,16 @@
+{
+  "name": "AnimeReview",
+  "short_name": "AnimeReview",
+  "theme_color": "#1a1a2e",
+  "background_color": "#1a1a2e",
+  "display": "standalone",
+  "scope": "./",
+  "start_url": "./",
+  "icons": [
+    {
+      "src": "assets/icon/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
