@@ -1,8 +1,0 @@
-{
-  "name": "anime-review-app",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "angular"
-}
-
