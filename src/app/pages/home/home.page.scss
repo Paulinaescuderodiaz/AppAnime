@@ -1,5 +1,5 @@
 .home-content {
-  --background: linear-gradient(135deg, #2d5a5a 0%, #1a3a3a 50%, #0d4d4d 100%);
+  --background: linear-gradient(135deg, #4a8a8a 0%, #2d5a5a 30%, #1a3a3a 70%, #0a2a2a 100%);
 }
 
 .loading-container {
@@ -22,6 +22,30 @@
 
 .animes-container {
   padding: 20px;
+}
+
+// Botón del perfil en el header
+.profile-button {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  margin-right: 8px;
+  
+  ion-icon {
+    font-size: 48px !important;
+    width: 48px;
+    height: 48px;
+    color: #ffffff;
+    filter: drop-shadow(0 2px 8px rgba(255, 255, 255, 0.3));
+    transition: transform 0.2s ease, filter 0.2s ease;
+  }
+  
+  &:hover ion-icon,
+  &:active ion-icon {
+    transform: scale(1.1);
+    filter: drop-shadow(0 4px 12px rgba(255, 255, 255, 0.5));
+  }
 }
 
 .header-section {
@@ -50,6 +74,63 @@
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   position: relative;
+  isolation: isolate;
+
+  // Gradiente animado como AWS
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(74, 138, 138, 0.4) 0%,
+      rgba(45, 90, 90, 0.5) 20%,
+      rgba(26, 58, 58, 0.6) 40%,
+      rgba(10, 42, 42, 0.5) 60%,
+      rgba(45, 90, 90, 0.4) 80%,
+      rgba(74, 138, 138, 0.4) 100%
+    );
+    background-size: 300% 300%;
+    animation: gradientShift 8s ease infinite;
+    z-index: -1;
+    border-radius: 16px;
+    opacity: 0.7;
+  }
+
+  // Variación de velocidad para cada card
+  &:nth-child(1)::before {
+    animation-duration: 6s;
+  }
+  &:nth-child(2)::before {
+    animation-duration: 7s;
+  }
+  &:nth-child(3)::before {
+    animation-duration: 8s;
+  }
+  &:nth-child(4)::before {
+    animation-duration: 9s;
+  }
+  &:nth-child(5)::before {
+    animation-duration: 10s;
+  }
+  &:nth-child(6)::before {
+    animation-duration: 7.5s;
+  }
+  &:nth-child(7)::before {
+    animation-duration: 8.5s;
+  }
+  &:nth-child(8)::before {
+    animation-duration: 9.5s;
+  }
+  &:nth-child(9)::before {
+    animation-duration: 6.5s;
+  }
+  &:nth-child(10)::before {
+    animation-duration: 7.8s;
+  }
 
   .rank-badge {
     position: absolute;
@@ -61,7 +142,7 @@
     font-size: 18px;
     padding: 8px 15px;
     border-radius: 20px;
-    z-index: 10;
+    z-index: 2;
     box-shadow: 0 2px 10px rgba(233, 69, 96, 0.5);
   }
 
@@ -71,6 +152,8 @@
     padding: 15px;
     cursor: pointer;
     transition: background 0.3s ease;
+    position: relative;
+    z-index: 1;
 
     &:hover {
       background: rgba(255, 255, 255, 0.05);
@@ -141,6 +224,8 @@
 
   ion-card-content {
     padding: 15px;
+    position: relative;
+    z-index: 1;
 
     .synopsis {
       color: rgba(255, 255, 255, 0.8);
@@ -257,5 +342,18 @@
         }
       }
     }
+  }
+}
+
+// Animación del gradiente cambiante
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }
