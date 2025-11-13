@@ -1,0 +1,108 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/login" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Registro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="register-content">
+  <div class="register-container">
+    <!-- Header -->
+    <div class="header-section">
+      <ion-icon name="person-add-outline" class="register-icon"></ion-icon>
+      <h2>Crear Cuenta</h2>
+      <p class="subtitle">Únete a AnimeReview</p>
+    </div>
+
+    <!-- Formulario de registro -->
+    <div class="form-section">
+      <ion-card class="register-card">
+        <ion-card-content>
+          <ion-item lines="none" class="input-item">
+            <ion-icon name="person-outline" slot="start"></ion-icon>
+            <ion-input
+              type="text"
+              placeholder="Nombre completo"
+              [(ngModel)]="registerData.fullName"
+              autocomplete="name"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item lines="none" class="input-item">
+            <ion-icon name="mail-outline" slot="start"></ion-icon>
+            <ion-input
+              type="email"
+              placeholder="Correo electrónico"
+              [(ngModel)]="registerData.email"
+              autocomplete="email"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item lines="none" class="input-item">
+            <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+            <ion-input
+              [type]="showPassword ? 'text' : 'password'"
+              placeholder="Contraseña"
+              [(ngModel)]="registerData.password"
+              autocomplete="new-password"
+            ></ion-input>
+            <ion-icon
+              [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+              slot="end"
+              class="password-toggle"
+              (click)="togglePasswordVisibility()"
+            ></ion-icon>
+          </ion-item>
+
+          <ion-item lines="none" class="input-item">
+            <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+            <ion-input
+              [type]="showConfirmPassword ? 'text' : 'password'"
+              placeholder="Confirmar contraseña"
+              [(ngModel)]="registerData.confirmPassword"
+              autocomplete="new-password"
+            ></ion-input>
+            <ion-icon
+              [name]="showConfirmPassword ? 'eye-off-outline' : 'eye-outline'"
+              slot="end"
+              class="password-toggle"
+              (click)="toggleConfirmPasswordVisibility()"
+            ></ion-icon>
+          </ion-item>
+
+          <ion-button
+            expand="block"
+            class="register-button"
+            (click)="register()"
+          >
+            <ion-icon name="create-outline" slot="start"></ion-icon>
+            Crear Cuenta
+          </ion-button>
+
+          <div class="divider">
+            <span>o regístrate con</span>
+          </div>
+
+          <ion-button
+            expand="block"
+            fill="outline"
+            class="google-button"
+            (click)="registerWithGoogle()"
+          >
+            <ion-icon name="logo-google" slot="start"></ion-icon>
+            Google
+          </ion-button>
+
+          <div class="login-link">
+            <p>
+              ¿Ya tienes cuenta?
+              <span class="link-text" routerLink="/login">Inicia sesión</span>
+            </p>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+</ion-content>

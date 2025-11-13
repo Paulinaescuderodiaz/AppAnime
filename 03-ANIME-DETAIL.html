@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalle</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" *ngIf="anime">
+  <div class="detail-container">
+    <img [src]="anime.images.webp.large_image_url" [alt]="anime.title"/>
+    <h2>{{ anime.title }}</h2>
+    <p>{{ anime.synopsis }}</p>
+  </div>
+</ion-content>

@@ -1,0 +1,73 @@
+<ion-content [fullscreen]="true" class="login-content">
+  <div class="login-container">
+    <!-- Logo y título -->
+    <div class="header-section">
+      <ion-icon name="film-outline" class="logo-icon"></ion-icon>
+      <h1>AnimeReview</h1>
+      <p class="subtitle">Tu app de reseñas de anime</p>
+    </div>
+
+    <!-- Formulario de login -->
+    <div class="form-section">
+      <ion-card class="login-card">
+        <ion-card-content>
+          <ion-item lines="none" class="input-item">
+            <ion-icon name="mail-outline" slot="start"></ion-icon>
+            <ion-input
+              type="email"
+              placeholder="Correo electrónico"
+              [(ngModel)]="loginData.email"
+              autocomplete="email"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item lines="none" class="input-item">
+            <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+            <ion-input
+              [type]="showPassword ? 'text' : 'password'"
+              placeholder="Contraseña"
+              [(ngModel)]="loginData.password"
+              autocomplete="current-password"
+            ></ion-input>
+            <ion-icon
+              [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+              slot="end"
+              class="password-toggle"
+              (click)="togglePassword()"
+            ></ion-icon>
+          </ion-item>
+
+          <ion-button
+            expand="block"
+            class="login-button"
+            (click)="login()"
+          >
+            <ion-icon name="log-in-outline" slot="start"></ion-icon>
+            Iniciar Sesión
+          </ion-button>
+
+          <div class="divider">
+            <span>o continúa con</span>
+          </div>
+
+          <ion-button
+            expand="block"
+            fill="outline"
+            class="google-button"
+            (click)="loginWithGoogle()"
+          >
+            <ion-icon name="logo-google" slot="start"></ion-icon>
+            Google
+          </ion-button>
+
+          <div class="register-link">
+            <p>
+              ¿No tienes cuenta?
+              <span class="link-text" routerLink="/register">Regístrate</span>
+            </p>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+</ion-content>
