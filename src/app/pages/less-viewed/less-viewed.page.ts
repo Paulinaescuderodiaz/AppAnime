@@ -9,12 +9,12 @@ import { ReviewService } from '../../services/review.service';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.page.html',
-  styleUrls: ['./home.page.scss'],
+  selector: 'app-less-viewed',
+  templateUrl: './less-viewed.page.html',
+  styleUrls: ['./less-viewed.page.scss'],
 })
-export class HomePage implements OnInit {
-  topAnimes: Anime[] = [];
+export class LessViewedPage implements OnInit {
+  lessViewedAnimes: Anime[] = [];
   reviews: { [animeId: number]: Review[] } = {};
   currentUser: User | null = null;
   isLoading: boolean = true;
@@ -43,13 +43,13 @@ export class HomePage implements OnInit {
       this.currentUser = user;
     });
 
-    this.animeService.getTopAnimes(10).subscribe({
+    this.animeService.getLessViewedAnimes(10).subscribe({
       next: (animes) => {
-        this.topAnimes = animes;
+        this.lessViewedAnimes = animes;
         this.loadReviews();
       },
       error: (error) => {
-        console.error('Error cargando animes:', error);
+        console.error('Error cargando animes menos vistos:', error);
         this.isLoading = false;
         this.showAlert('Error', 'No se pudieron cargar los animes');
       }
@@ -57,7 +57,7 @@ export class HomePage implements OnInit {
   }
 
   loadReviews() {
-    this.topAnimes.forEach(anime => {
+    this.lessViewedAnimes.forEach(anime => {
       this.reviewService.getReviewsByAnime(anime.mal_id).subscribe({
         next: (reviews) => {
           this.reviews[anime.mal_id] = reviews;
@@ -195,8 +195,8 @@ export class HomePage implements OnInit {
     this.router.navigate(['/profile']);
   }
 
-  goToLessViewed() {
-    this.router.navigate(['/less-viewed']);
+  goToHome() {
+    this.router.navigate(['/home']);
   }
 
   private async showAlert(header: string, message: string) {
@@ -226,4 +226,12 @@ export class HomePage implements OnInit {
     }
     return synopsis;
   }
+
+  formatMembers(members: number | undefined): string {
+    if (!members) {
+      return '0';
+    }
+    return members.toLocaleString('es-ES');
+  }
 }
+

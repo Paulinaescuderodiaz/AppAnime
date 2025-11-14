@@ -1,4 +1,4 @@
-.home-content {
+.less-viewed-content {
   --background: linear-gradient(135deg, #4a8a8a 0%, #2d5a5a 30%, #1a3a3a 70%, #0a2a2a 100%);
 }
 
@@ -24,8 +24,21 @@
   padding: 20px;
 }
 
-// Botones de navegación en el header
-.nav-button,
+// Centrar el título en el header
+ion-toolbar {
+  ion-title {
+    text-align: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+}
+
+// Botón del perfil en el header
 .profile-button {
   --padding-start: 16px;
   --padding-end: 16px;
@@ -372,3 +385,4 @@
     background-position: 0% 50%;
   }
 }
+

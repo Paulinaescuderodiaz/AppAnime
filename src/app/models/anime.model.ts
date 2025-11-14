@@ -21,6 +21,7 @@ export interface Anime {
   status?: string;
   type?: string;
   year?: number;
+  members?: number;
   genres?: Array<{
     mal_id: number;
     name: string;

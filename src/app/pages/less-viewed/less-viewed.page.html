@@ -1,13 +1,15 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-button (click)="goToHome()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-title>
-      <ion-icon name="film-outline"></ion-icon>
+      <ion-icon name="eye-off-outline"></ion-icon>
       Neko Rate
     </ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="goToLessViewed()" class="nav-button">
-        <ion-icon name="eye-off-outline"></ion-icon>
-      </ion-button>
       <ion-button (click)="goToProfile()" class="profile-button">
         <ion-icon name="person-circle-outline"></ion-icon>
       </ion-button>
@@ -15,7 +17,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="home-content">
+<ion-content [fullscreen]="true" class="less-viewed-content">
   <!-- Refresh -->
   <ion-refresher slot="fixed" (ionRefresh)="refreshData($event)">
     <ion-refresher-content></ion-refresher-content>
@@ -27,14 +29,14 @@
     <p>Cargando animes...</p>
   </div>
 
-  <!-- Lista de Top Animes -->
+  <!-- Lista de Animes Menos Vistos -->
   <div *ngIf="!isLoading" class="animes-container">
     <div class="header-section">
-      <h2>🏆 Top 10 Mejores Animes</h2>
-      <p>Los animes mejor rankeados según MyAnimeList</p>
+      <h2>👁️ Animes Menos Vistos</h2>
+      <p>Descubre animes con menos visualizaciones pero igual de interesantes</p>
     </div>
 
-    <ion-card *ngFor="let anime of topAnimes; let i = index" class="anime-card">
+    <ion-card *ngFor="let anime of lessViewedAnimes; let i = index" class="anime-card">
       <div class="rank-badge">#{{ i + 1 }}</div>
       
       <div class="anime-header" (click)="viewAnimeDetail(anime)">
@@ -59,6 +61,9 @@
           </ion-badge>
           <ion-badge color="secondary" *ngIf="anime.status">
             {{ anime.status }}
+          </ion-badge>
+          <ion-badge color="tertiary" *ngIf="anime.members">
+            👥 {{ formatMembers(anime.members) }} miembros
           </ion-badge>
         </div>
       </div>
@@ -105,3 +110,4 @@
     </ion-card>
   </div>
 </ion-content>
+

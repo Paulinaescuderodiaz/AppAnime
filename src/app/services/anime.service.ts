@@ -90,6 +90,41 @@ export class AnimeService {
     );
   }
 
+  getLessViewedAnimes(limit: number = 10): Observable<Anime[]> {
+    const cacheKey = `less_viewed_animes_${limit}`;
+    
+    if (this.cache.has(cacheKey)) {
+      const cached = this.cache.get(cacheKey);
+      if (Date.now() - cached.timestamp < this.cacheTimeout) {
+        return of(cached.data);
+      }
+    }
+
+    // Obtener animes y ordenarlos por menor número de miembros (menos vistos)
+    return this.http.get<any>(`${this.JIKAN_API_URL}/anime?order_by=members&sort=asc&limit=${limit * 2}`).pipe(
+      map((response: any) => {
+        if (response && response.data) {
+          // Filtrar y ordenar por menor número de miembros
+          const sorted = response.data
+            .filter((anime: any) => anime.members && anime.members > 0)
+            .sort((a: any, b: any) => a.members - b.members)
+            .slice(0, limit);
+          
+          this.cache.set(cacheKey, {
+            data: sorted,
+            timestamp: Date.now()
+          });
+          return sorted;
+        }
+        return [];
+      }),
+      catchError(error => {
+        console.error('Error fetching less viewed animes:', error);
+        return of([]);
+      })
+    );
+  }
+
   calculateAverageRating(reviews: Review[]): number {
     if (!reviews || reviews.length === 0) {
       return 0;
