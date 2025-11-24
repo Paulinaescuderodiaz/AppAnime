@@ -15,6 +15,17 @@
   margin-bottom: 40px;
   animation: fadeInDown 0.8s ease;
 
+  .logo-image {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 20px rgba(233, 69, 96, 0.5));
+    animation: logoFloat 3s ease-in-out infinite;
+    border: 3px solid rgba(233, 69, 96, 0.3);
+  }
+
   .logo-icon {
     font-size: 80px;
     color: #e94560;
@@ -179,5 +190,14 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes logoFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
   }
 }

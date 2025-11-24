@@ -175,7 +175,7 @@ export class AuthService {
   }
 
   // Actualizar perfil
-  async updateProfile(updates: { fullName?: string }): Promise<any> {
+  async updateProfile(updates: { fullName?: string; photoURL?: string | null }): Promise<any> {
     try {
       const currentUser = this.currentUserSubject.value;
       if (!currentUser) {
@@ -189,15 +189,19 @@ export class AuthService {
       if (userIndex !== -1) {
         if (updates.fullName) {
           users[userIndex].fullName = updates.fullName;
-          await this.storageService.set('users', users);
         }
+        if (updates.photoURL !== undefined) {
+          users[userIndex].photoURL = updates.photoURL;
+        }
+        await this.storageService.set('users', users);
       }
 
       // Actualizar usuario actual
       const updatedUser: User = {
         ...currentUser,
         fullName: updates.fullName || currentUser.fullName,
-        displayName: updates.fullName || currentUser.displayName
+        displayName: updates.fullName || currentUser.displayName,
+        photoURL: updates.photoURL !== undefined ? updates.photoURL : currentUser.photoURL
       };
 
       await this.storageService.set('currentUser', updatedUser);

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController, LoadingController } from '@ionic/angular';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/user.model';
 
@@ -14,6 +15,7 @@ export class ProfilePage implements OnInit {
   fullName: string = '';
   email: string = '';
   isEditing: boolean = false;
+  profileImage: string | null = null;
 
   constructor(
     private authService: AuthService,
@@ -37,6 +39,7 @@ export class ProfilePage implements OnInit {
         if (user) {
           this.fullName = user.fullName;
           this.email = user.email;
+          this.profileImage = user.photoURL || null;
         }
       }
     });
@@ -61,7 +64,10 @@ export class ProfilePage implements OnInit {
     await loading.present();
 
     try {
-      const result = await this.authService.updateProfile({ fullName: this.fullName });
+      const result = await this.authService.updateProfile({ 
+        fullName: this.fullName,
+        photoURL: this.profileImage
+      });
       await loading.dismiss();
       if (result.success) {
         this.isEditing = false;
@@ -72,6 +78,70 @@ export class ProfilePage implements OnInit {
     } catch (error: any) {
       await loading.dismiss();
       this.showAlert('Error', 'No se pudo actualizar el perfil');
+    }
+  }
+
+  async changeProfilePicture() {
+    const alert = await this.alertController.create({
+      header: 'Cambiar Foto de Perfil',
+      message: '¿Cómo deseas agregar la foto?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Cámara',
+          handler: () => {
+            this.takePicture(CameraSource.Camera);
+          }
+        },
+        {
+          text: 'Galería',
+          handler: () => {
+            this.takePicture(CameraSource.Photos);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  async takePicture(source: CameraSource) {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: true,
+        resultType: CameraResultType.DataUrl,
+        source: source
+      });
+
+      if (image.dataUrl) {
+        this.profileImage = image.dataUrl;
+        // Guardar automáticamente
+        const loading = await this.loadingController.create({
+          message: 'Guardando foto...'
+        });
+        await loading.present();
+
+        try {
+          const result = await this.authService.updateProfile({ photoURL: this.profileImage });
+          await loading.dismiss();
+          if (result.success) {
+            this.showAlert('¡Listo!', 'Foto de perfil actualizada');
+          } else {
+            this.showAlert('Error', 'No se pudo guardar la foto');
+          }
+        } catch (error) {
+          await loading.dismiss();
+          this.showAlert('Error', 'No se pudo guardar la foto');
+        }
+      }
+    } catch (error: any) {
+      if (error.message !== 'User cancelled photos app') {
+        this.showAlert('Error', 'No se pudo tomar la foto. Verifica los permisos de la cámara.');
+      }
     }
   }
 

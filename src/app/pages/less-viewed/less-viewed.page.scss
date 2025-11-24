@@ -45,6 +45,8 @@ ion-toolbar {
   --padding-top: 12px;
   --padding-bottom: 12px;
   margin-right: 8px;
+  position: relative;
+  overflow: visible;
   
   ion-icon {
     font-size: 48px !important;
@@ -52,31 +54,79 @@ ion-toolbar {
     height: 48px;
     color: #ffffff;
     filter: drop-shadow(0 2px 8px rgba(255, 255, 255, 0.3));
-    transition: transform 0.2s ease, filter 0.2s ease;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
+    position: relative;
+    z-index: 1;
   }
   
-  &:hover ion-icon,
+  // Efecto de brillo al pasar el mouse
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    transition: width 0.3s ease, height 0.3s ease;
+    z-index: 0;
+  }
+  
+  &:hover {
+    &::before {
+      width: 80px;
+      height: 80px;
+    }
+    
+    ion-icon {
+      transform: scale(1.15) rotate(5deg);
+      filter: drop-shadow(0 4px 16px rgba(255, 255, 255, 0.6));
+    }
+  }
+  
   &:active ion-icon {
-    transform: scale(1.1);
-    filter: drop-shadow(0 4px 12px rgba(255, 255, 255, 0.5));
+    transform: scale(1.05) rotate(-5deg);
   }
 }
 
 .header-section {
   text-align: center;
   margin-bottom: 25px;
+  position: relative;
+  padding: 20px;
+  animation: fadeInDown 0.8s ease-out;
   
   h2 {
     color: #ffffff;
     font-size: 24px;
     font-weight: bold;
     margin: 10px 0;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    position: relative;
+    display: inline-block;
+    
+    // Efecto de brillo sutil en el título
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #e94560, transparent);
+      border-radius: 2px;
+      animation: shimmer 2s ease-in-out infinite;
+    }
   }
 
   p {
     color: rgba(255, 255, 255, 0.7);
     font-size: 14px;
     margin: 0;
+    animation: fadeInUp 0.8s ease-out 0.2s backwards;
   }
 }
 
@@ -89,6 +139,25 @@ ion-toolbar {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   position: relative;
   isolation: isolate;
+  animation: cardSlideIn 0.6s ease-out backwards;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  // Animación escalonada para cada card
+  @for $i from 1 through 10 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.1}s;
+    }
+  }
+
+  // Efecto hover más interactivo
+  &:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  &:active {
+    transform: translateY(-4px) scale(1.01);
+  }
 
   // Gradiente animado como AWS - verde → turquesa → azul con cambio muy notorio
   &::before {
@@ -163,6 +232,12 @@ ion-toolbar {
     border-radius: 20px;
     z-index: 2;
     box-shadow: 0 2px 10px rgba(233, 69, 96, 0.5);
+    animation: badgePulse 2s ease-in-out infinite;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.1);
+    }
   }
 
   .anime-header {
@@ -170,12 +245,16 @@ ion-toolbar {
     gap: 15px;
     padding: 15px;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: background 0.3s ease, transform 0.2s ease;
     position: relative;
     z-index: 1;
 
     &:hover {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    &:active {
+      transform: scale(0.98);
     }
 
     .anime-image {
@@ -184,6 +263,12 @@ ion-toolbar {
       object-fit: cover;
       border-radius: 12px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+      &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+      }
     }
 
     .anime-info {
@@ -282,6 +367,40 @@ ion-toolbar {
           --background-hover: rgba(0, 0, 0, 0.5);
           backdrop-filter: blur(5px);
           font-size: 13px;
+          position: relative;
+          overflow: hidden;
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+          // Efecto de brillo animado
+          &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+              90deg,
+              transparent,
+              rgba(233, 69, 96, 0.3),
+              transparent
+            );
+            transition: left 0.5s ease;
+            z-index: 0;
+          }
+
+          &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(233, 69, 96, 0.3);
+
+            &::before {
+              left: 100%;
+            }
+          }
+
+          &:active {
+            transform: translateY(0);
+          }
         }
       }
 
@@ -383,6 +502,63 @@ ion-toolbar {
   }
   100% {
     background-position: 0% 50%;
+  }
+}
+
+// Animación de entrada para las cards
+@keyframes cardSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+// Animación de pulso para el badge de ranking
+@keyframes badgePulse {
+  0%, 100% {
+    box-shadow: 0 2px 10px rgba(233, 69, 96, 0.5);
+  }
+  50% {
+    box-shadow: 0 2px 20px rgba(233, 69, 96, 0.8);
+  }
+}
+
+// Animación de brillo para el título
+@keyframes shimmer {
+  0%, 100% {
+    opacity: 0.5;
+    width: 60px;
+  }
+  50% {
+    opacity: 1;
+    width: 100px;
+  }
+}
+
+// Animaciones de entrada
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 

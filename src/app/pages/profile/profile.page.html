@@ -17,8 +17,19 @@
     
     <!-- Header con avatar -->
     <div class="profile-header">
-      <div class="avatar-circle">
-        <ion-icon name="person"></ion-icon>
+      <div class="avatar-container">
+        <div class="avatar-circle" [class.has-image]="profileImage">
+          <img *ngIf="profileImage" [src]="profileImage" alt="Foto de perfil" class="profile-image" />
+          <ion-icon *ngIf="!profileImage" name="person"></ion-icon>
+        </div>
+        <ion-button 
+          fill="clear" 
+          class="change-photo-button" 
+          (click)="changeProfilePicture()"
+          title="Cambiar foto de perfil"
+        >
+          <ion-icon name="camera-outline"></ion-icon>
+        </ion-button>
       </div>
       <h2>{{ currentUser.fullName }}</h2>
       <p>{{ currentUser.email }}</p>
