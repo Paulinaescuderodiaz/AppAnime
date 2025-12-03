@@ -4,7 +4,7 @@ import { of, throwError } from 'rxjs';
 import { AnimeDetailPage } from './anime-detail.page';
 import { AnimeService } from '../../services/anime.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, Platform } from '@ionic/angular';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('AnimeDetailPage', () => {
@@ -36,6 +36,15 @@ describe('AnimeDetailPage', () => {
   beforeEach(async () => {
     const animeSpy = jasmine.createSpyObj('AnimeService', ['getAnimeById']);
     const routerSpyObj = jasmine.createSpyObj('Router', ['navigate']);
+    const platformSpy = jasmine.createSpyObj('Platform', ['ready', 'is', 'pause', 'resume']);
+    platformSpy.ready.and.returnValue(Promise.resolve(''));
+    platformSpy.is.and.returnValue(false);
+    platformSpy.backButton = of({} as any);
+    platformSpy.pause = of({} as any);
+    platformSpy.resume = of({} as any);
+    platformSpy.resize = of({} as any);
+    platformSpy.keyboardDidShow = of({} as any);
+    platformSpy.keyboardDidHide = of({} as any);
     const activatedRouteMock = {
       snapshot: {
         paramMap: {
@@ -46,12 +55,13 @@ describe('AnimeDetailPage', () => {
 
     await TestBed.configureTestingModule({
       declarations: [AnimeDetailPage],
-      imports: [IonicModule.forRoot(), HttpClientTestingModule],
+      imports: [IonicModule, HttpClientTestingModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: AnimeService, useValue: animeSpy },
         { provide: Router, useValue: routerSpyObj },
-        { provide: ActivatedRoute, useValue: activatedRouteMock }
+        { provide: ActivatedRoute, useValue: activatedRouteMock },
+        { provide: Platform, useValue: platformSpy }
       ]
     }).compileComponents();
 

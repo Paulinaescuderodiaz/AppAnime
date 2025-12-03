@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { AlertController, LoadingController, IonicModule } from '@ionic/angular';
+import { AlertController, LoadingController, IonicModule, Platform } from '@ionic/angular';
 import { of, throwError } from 'rxjs';
 import { ProfilePage } from './profile.page';
 import { AuthService } from '../../services/auth.service';
@@ -36,6 +36,15 @@ describe('ProfilePage', () => {
     const routerSpyObj = jasmine.createSpyObj('Router', ['navigate']);
     const alertSpy = jasmine.createSpyObj('AlertController', ['create']);
     const loadingSpy = jasmine.createSpyObj('LoadingController', ['create']);
+    const platformSpy = jasmine.createSpyObj('Platform', ['ready', 'is', 'pause', 'resume']);
+    platformSpy.ready.and.returnValue(Promise.resolve(''));
+    platformSpy.is.and.returnValue(false);
+    platformSpy.backButton = of({} as any);
+    platformSpy.pause = of({} as any);
+    platformSpy.resume = of({} as any);
+    platformSpy.resize = of({} as any);
+    platformSpy.keyboardDidShow = of({} as any);
+    platformSpy.keyboardDidHide = of({} as any);
 
     const loadingElement = {
       present: jasmine.createSpy('present').and.returnValue(Promise.resolve()),
@@ -51,13 +60,14 @@ describe('ProfilePage', () => {
 
     await TestBed.configureTestingModule({
       declarations: [ProfilePage],
-      imports: [IonicModule.forRoot()],
+      imports: [IonicModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: AuthService, useValue: authSpy },
         { provide: Router, useValue: routerSpyObj },
         { provide: AlertController, useValue: alertSpy },
-        { provide: LoadingController, useValue: loadingSpy }
+        { provide: LoadingController, useValue: loadingSpy },
+        { provide: Platform, useValue: platformSpy }
       ]
     }).compileComponents();
 

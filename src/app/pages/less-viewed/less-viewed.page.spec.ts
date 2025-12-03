@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { LoadingController, AlertController } from '@ionic/angular';
+import { LoadingController, AlertController, Platform } from '@ionic/angular';
 import { of, throwError } from 'rxjs';
 import { LessViewedPage } from './less-viewed.page';
 import { AnimeService } from '../../services/anime.service';
@@ -69,6 +69,15 @@ describe('LessViewedPage', () => {
     const routerSpyObj = jasmine.createSpyObj('Router', ['navigate']);
     const alertSpy = jasmine.createSpyObj('AlertController', ['create']);
     const loadingSpy = jasmine.createSpyObj('LoadingController', ['create']);
+    const platformSpy = jasmine.createSpyObj('Platform', ['ready', 'is', 'pause', 'resume']);
+    platformSpy.ready.and.returnValue(Promise.resolve(''));
+    platformSpy.is.and.returnValue(false);
+    platformSpy.backButton = of({} as any);
+    platformSpy.pause = of({} as any);
+    platformSpy.resume = of({} as any);
+    platformSpy.resize = of({} as any);
+    platformSpy.keyboardDidShow = of({} as any);
+    platformSpy.keyboardDidHide = of({} as any);
 
     const loadingElement = {
       present: jasmine.createSpy('present').and.returnValue(Promise.resolve()),
@@ -84,7 +93,7 @@ describe('LessViewedPage', () => {
 
     await TestBed.configureTestingModule({
       declarations: [LessViewedPage],
-      imports: [IonicModule.forRoot(), HttpClientTestingModule],
+      imports: [IonicModule, HttpClientTestingModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         AnimeService, // Usar el servicio real con HttpClientTestingModule
@@ -92,7 +101,8 @@ describe('LessViewedPage', () => {
         { provide: AuthService, useValue: authSpy },
         { provide: Router, useValue: routerSpyObj },
         { provide: AlertController, useValue: alertSpy },
-        { provide: LoadingController, useValue: loadingSpy }
+        { provide: LoadingController, useValue: loadingSpy },
+        { provide: Platform, useValue: platformSpy }
       ]
     }).compileComponents();
 
