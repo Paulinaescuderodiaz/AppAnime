@@ -241,7 +241,7 @@ describe('AuthService', () => {
     });
 
     it('debería fallar para usuarios de Google', async () => {
-      const googleUser = { ...mockUser, authProvider: 'Google' };
+      const googleUser: User = { ...mockUser, authProvider: 'Google' as 'Google' };
       service['currentUserSubject'].next(googleUser);
       
       const result = await service.updatePassword('oldpassword', 'newpassword');
@@ -321,6 +321,7 @@ describe('AuthService', () => {
       const reviews = [{
         id: 'review_1',
         animeId: 1,
+        animeName: 'Test Anime',
         userId: 'user_123',
         userEmail: 'test@test.com',
         userName: 'Test User',

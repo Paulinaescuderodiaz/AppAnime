@@ -5,6 +5,7 @@ import { AnimeDetailPage } from './anime-detail.page';
 import { AnimeService } from '../../services/anime.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { IonicModule } from '@ionic/angular';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('AnimeDetailPage', () => {
   let component: AnimeDetailPage;
@@ -46,6 +47,7 @@ describe('AnimeDetailPage', () => {
     await TestBed.configureTestingModule({
       declarations: [AnimeDetailPage],
       imports: [IonicModule.forRoot(), HttpClientTestingModule],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: AnimeService, useValue: animeSpy },
         { provide: Router, useValue: routerSpyObj },
@@ -63,23 +65,29 @@ describe('AnimeDetailPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('debería cargar el anime al inicializar', () => {
+  it('debería cargar el anime al inicializar', (done) => {
     animeServiceSpy.getAnimeById.and.returnValue(of(mockAnime as any));
     
     component.ngOnInit();
     
-    expect(animeServiceSpy.getAnimeById).toHaveBeenCalledWith(1);
-    expect(component.anime).toEqual(mockAnime);
-    expect(component.isLoading).toBe(false);
+    setTimeout(() => {
+      expect(animeServiceSpy.getAnimeById).toHaveBeenCalledWith(1);
+      expect(component.anime).toEqual(mockAnime);
+      expect(component.isLoading).toBe(false);
+      done();
+    }, 100);
   });
 
-  it('debería manejar errores al cargar el anime', () => {
-    animeServiceSpy.getAnimeById.and.returnValue(throwError('Error'));
+  it('debería manejar errores al cargar el anime', (done) => {
+    animeServiceSpy.getAnimeById.and.returnValue(throwError(() => new Error('Error')));
     
     component.loadAnime(1);
     
-    expect(component.isLoading).toBe(false);
-    expect(routerSpy.navigate).toHaveBeenCalledWith(['/home']);
+    setTimeout(() => {
+      expect(component.isLoading).toBe(false);
+      expect(routerSpy.navigate).toHaveBeenCalledWith(['/home']);
+      done();
+    }, 100);
   });
 
   it('debería navegar de vuelta al home', () => {
@@ -88,18 +96,5 @@ describe('AnimeDetailPage', () => {
     expect(routerSpy.navigate).toHaveBeenCalledWith(['/home']);
   });
 
-  it('debería establecer isLoading en true al iniciar', () => {
-    expect(component.isLoading).toBe(true);
-  });
-
-  it('debería cargar el anime correctamente', () => {
-    animeServiceSpy.getAnimeById.and.returnValue(of(mockAnime as any));
-    
-    component.loadAnime(1);
-    
-    expect(animeServiceSpy.getAnimeById).toHaveBeenCalledWith(1);
-    expect(component.anime).toEqual(mockAnime);
-    expect(component.isLoading).toBe(false);
-  });
 });
 

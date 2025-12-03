@@ -13,15 +13,17 @@ getTestBed().initTestEnvironment(
   platformBrowserDynamicTesting(),
 );
 
-// Then we find all the tests.
-declare const require: {
-  context(path: string, deep?: boolean, filter?: RegExp): {
-    <T>(id: string): T;
-    keys(): string[];
-    id: string;
-  };
-};
+// Import all test files explicitly
+// Services
+import './app/services/auth.service.spec';
+import './app/services/anime.service.spec';
+import './app/services/review.service.spec';
+import './app/services/storage.service.spec';
 
-// Load all test files using require.context
-const context = require.context('./', true, /\.spec\.ts$/);
-context.keys().forEach(context);
+// Pages
+import './app/pages/home/home.page.spec';
+import './app/pages/login/login.page.spec';
+import './app/pages/register/register.page.spec';
+import './app/pages/anime-detail/anime-detail.page.spec';
+import './app/pages/profile/profile.page.spec';
+import './app/pages/less-viewed/less-viewed.page.spec';
